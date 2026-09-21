@@ -1,6 +1,7 @@
 {
   "name": "intellidesk-ai",
   "version": "0.1.0",
+  "description": "Intelligent Helpdesk Automation powered by Agentic AI + RPA",
   "private": true,
   "scripts": {
     "dev": "next dev",
