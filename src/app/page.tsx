@@ -5,10 +5,24 @@
  * This is NOT the final dashboard - that comes in Stage 2.
  */
 
+import {
+  Badge,
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  Input,
+  Select,
+  Spinner,
+  Textarea,
+} from '@/components/ui';
+
 export default function FoundationPage() {
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-6">
-      <div className="max-w-2xl w-full">
+    <div className="min-h-screen bg-background p-6">
+      <div className="max-w-4xl mx-auto space-y-8">
         {/* Header */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-xl bg-primary-600 mb-4">
@@ -163,6 +177,92 @@ export default function FoundationPage() {
             Design system and architecture baseline established.
           </p>
         </div>
+
+        {/* Component Preview */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Component Preview</CardTitle>
+            <CardDescription>
+              Temporary developer validation of UI component library
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {/* Buttons */}
+            <div>
+              <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                Buttons
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                <Button variant="primary" size="sm">
+                  Primary
+                </Button>
+                <Button variant="secondary" size="sm">
+                  Secondary
+                </Button>
+                <Button variant="outline" size="sm">
+                  Outline
+                </Button>
+                <Button variant="ghost" size="sm">
+                  Ghost
+                </Button>
+                <Button variant="danger" size="sm">
+                  Danger
+                </Button>
+                <Button variant="primary" size="sm" isLoading>
+                  Loading
+                </Button>
+                <Button variant="primary" size="sm" disabled>
+                  Disabled
+                </Button>
+              </div>
+            </div>
+
+            {/* Badges */}
+            <div>
+              <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                Badges
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                <Badge variant="neutral">Neutral</Badge>
+                <Badge variant="primary">Primary</Badge>
+                <Badge variant="ai">AI</Badge>
+                <Badge variant="success">Success</Badge>
+                <Badge variant="warning">Warning</Badge>
+                <Badge variant="danger">Danger</Badge>
+                <Badge variant="info">Info</Badge>
+              </div>
+            </div>
+
+            {/* Form Inputs */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Input label="Email" placeholder="Enter your email" />
+              <Select label="Category">
+                <option value="">Select category</option>
+                <option value="hardware">Hardware</option>
+                <option value="software">Software</option>
+              </Select>
+            </div>
+
+            {/* Textarea */}
+            <Textarea
+              label="Description"
+              placeholder="Describe your issue..."
+              rows={3}
+            />
+
+            {/* Loading Indicator */}
+            <div>
+              <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                Loading Indicator
+              </h4>
+              <div className="flex items-center gap-4">
+                <Spinner size="sm" />
+                <Spinner size="md" />
+                <Spinner size="lg" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
