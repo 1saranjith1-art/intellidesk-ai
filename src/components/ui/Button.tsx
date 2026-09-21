@@ -2,32 +2,43 @@
  * IntelliDesk AI - Button Component
  *
  * Reusable button with variants, sizes, and states.
+ * Can render as a button or Link based on href prop.
  */
 
 'use client';
 
 import { cn } from '@/lib/utils';
-import { ButtonHTMLAttributes, forwardRef } from 'react';
+import { ButtonHTMLAttributes, forwardRef, AnchorHTMLAttributes } from 'react';
+import Link from 'next/link';
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+type ButtonBaseProps = {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
   size?: 'sm' | 'md' | 'lg';
   isLoading?: boolean;
-}
+};
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    {
+type ButtonAsButton = ButtonBaseProps & ButtonHTMLAttributes<HTMLButtonElement> & {
+  href?: never;
+};
+
+type ButtonAsLink = ButtonBaseProps & Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'> & {
+  href: string;
+};
+
+export type ButtonProps = ButtonAsButton | ButtonAsLink;
+
+export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
+  (props, ref) => {
+    const {
       className,
       variant = 'primary',
       size = 'md',
       isLoading = false,
-      disabled,
       children,
-      ...props
-    },
-    ref
-  ) => {
+      ...rest
+    } = props;
+
+    const disabled = 'disabled' in props ? props.disabled : false;
     const baseStyles =
       'inline-flex items-center justify-center font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-600 focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none';
 
@@ -50,18 +61,15 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       lg: 'h-12 px-6 text-base rounded-lg gap-2',
     };
 
-    return (
-      <button
-        ref={ref}
-        className={cn(
-          baseStyles,
-          variantStyles[variant],
-          sizeStyles[size],
-          className
-        )}
-        disabled={disabled || isLoading}
-        {...props}
-      >
+    const classes = cn(
+      baseStyles,
+      variantStyles[variant],
+      sizeStyles[size],
+      className
+    );
+
+    const content = (
+      <>
         {isLoading && (
           <svg
             className="animate-spin h-4 w-4"
@@ -85,6 +93,33 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           </svg>
         )}
         {children}
+      </>
+    );
+
+    // Render as Link if href is provided
+    if ('href' in rest && rest.href) {
+      const { href, ...linkProps } = rest;
+      return (
+        <Link
+          href={href}
+          className={classes}
+          ref={ref as React.ForwardedRef<HTMLAnchorElement>}
+          {...linkProps}
+        >
+          {content}
+        </Link>
+      );
+    }
+
+    // Render as button
+    return (
+      <button
+        ref={ref as React.ForwardedRef<HTMLButtonElement>}
+        className={classes}
+        disabled={disabled || isLoading}
+        {...(rest as ButtonHTMLAttributes<HTMLButtonElement>)}
+      >
+        {content}
       </button>
     );
   }

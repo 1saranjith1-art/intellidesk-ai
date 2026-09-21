@@ -9,7 +9,7 @@ import { HTMLAttributes, ReactNode } from 'react';
 
 export interface PageHeaderProps extends HTMLAttributes<HTMLDivElement> {
   title: string;
-  description?: string;
+  description?: ReactNode;
   actions?: ReactNode;
 }
 

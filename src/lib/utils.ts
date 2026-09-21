@@ -65,6 +65,11 @@ export function timeAgo(date: string | Date): string {
 }
 
 /**
+ * Alias for timeAgo (for consistency)
+ */
+export const formatTimeAgo = timeAgo;
+
+/**
  * Truncate text to a maximum length
  */
 export function truncate(text: string, maxLength: number): string {
